@@ -31,7 +31,7 @@ int output_unsigned_int(unsigned int number);
 int _strlen(char *s);
 char *_strncpy(char *dest, const char *src);
 int read_user_input(char *str);
-void exec_cmds_without_pipe(char **cmd_to_execute);
+void exec_cmds_without_pipe(char **cmd_to_execute, const char *filename);
 /* void exec_cmds_with_pipe(char **args, char **args_pipe); */
 void openHelp(void);
 int inbuilt_cmd_handler(char **cmd_to_execute);
