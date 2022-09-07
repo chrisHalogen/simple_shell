@@ -28,7 +28,7 @@ int inbuilt_cmd_handler(char **cmd_to_execute)
 	switch (inbuilt_cmd_switch)
 	{
 		case 1:
-			_printf("\nGoodbye\n");
+			/* _printf("\nGoodbye\n"); */
 			exit(0);
 		case 2:
 			chdir(cmd_to_execute[1]);

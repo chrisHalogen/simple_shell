@@ -13,7 +13,7 @@ int read_user_input(char *str)
 	size_t char_count = 0;
 	ssize_t read_count = 0;
 
-	_printf("\n$ ");
+	_printf("$ ");
 	read_count = getline(&buffer, &char_count, stdin);
 
 	if (read_count == -1)

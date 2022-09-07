@@ -31,7 +31,8 @@ int output_unsigned_int(unsigned int number);
 int _strlen(char *s);
 char *_strncpy(char *dest, const char *src);
 int read_user_input(char *str);
-void exec_cmds_without_pipe(char **cmd_to_execute, const char *filename);
+void exec_cmd(char **cmd, const char *file, char *path);
+void exec_path_cmd(char **cmd, const char *file);
 /* void exec_cmds_with_pipe(char **args, char **args_pipe); */
 void openHelp(void);
 int inbuilt_cmd_handler(char **cmd_to_execute);
@@ -43,5 +44,7 @@ char *_strcat(char *dest, char *src);
 char *_strsep(char **str, char *delims);
 char *_strchr(char *s, char c);
 int _strcmp(char *s1, char *s2);
+int is_valid_file(char *path);
+int is_path(char *path);
 
 #endif

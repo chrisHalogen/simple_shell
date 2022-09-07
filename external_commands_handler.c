@@ -1,43 +1,65 @@
 #include "shell.h"
 
 /**
- * exec_cmds_without_pipe - executes linux commands without a pipe
- * @cmd_to_execute: the command to be executed
- * @filename: the name of executable
+ * exec_cmd - executes linux commands without a pipe
+ * @cmd: the command to be executed
+ * @file: the name of executable
+ * @path: the path to execute
  * Return: void
  */
 
-void exec_cmds_without_pipe(char **cmd_to_execute, const char *filename)
+void exec_cmd(char **cmd, const char *file, char *path)
 {
-	char path_url[30] = "/usr/bin/";
-	int i = 0;
+	/* char path[30] = "/usr/bin/"; */
+	/* int i = 0; */
 	pid_t pid = fork();
 
+	/* _printf("\nFork Called\n"); */
 	if (pid == -1)
 	{
-		perror(filename);
+		perror(file);
 		return;
 	}
 	else if (pid == 0)
 	{
-		while (cmd_to_execute[0][i])
-		{
-			if (cmd_to_execute[0][i] == '/')
-			{
-				if (execve(cmd_to_execute[0], cmd_to_execute, environ) < 0)
-				{
-					perror(filename);
-				}
+		/* _strcat(path, cmd[0]); */
 
-				exit(0);
-			}
-		i++;
+		if (execve(path, cmd, environ) < 0)
+		{
+			perror(file);
 		}
-		_strcat(path_url, cmd_to_execute[0]);
+		exit(0);
+	}
+	else
+	{
+		wait(NULL);
+		return;
+	}
+}
 
-		if (execve(path_url, cmd_to_execute, environ) < 0)
+
+/**
+ * exec_path_cmd - executes linux commands without a pipe
+ * @cmd: the command to be executed
+ * @file: the name of executable
+ * Return: void
+ */
+
+void exec_path_cmd(char **cmd, const char *file)
+{
+	pid_t pid = fork();
+
+	/* _printf("\nFork Called\n"); */
+	if (pid == -1)
+	{
+		perror(file);
+		return;
+	}
+	else if (pid == 0)
+	{
+		if (execve(cmd[0], cmd, environ) < 0)
 		{
-			perror(filename);
+			perror(file);
 		}
 		exit(0);
 	}

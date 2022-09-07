@@ -17,14 +17,29 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		read_user_input(input_CMD);
-
 		exec_indicator = analyze_string(input_CMD, args, args_piped);
 
 		if (exec_indicator == 1)
-			exec_cmds_without_pipe(args, argv[0]);
+		{
+			if (is_path(args[0]) == 0)
+			{
+				char path_url[30] = "/usr/bin/";
 
-		iteration++;
+				_strcat(path_url, args[0]);
+				if (is_valid_file(path_url))
+					exec_cmd(args, argv[0], path_url);
+				else
+					perror(argv[0]);
+			}
+			else
+			{
+				if (is_valid_file(args[0]))
+					exec_path_cmd(args, argv[0]);
+				else
+					perror(argv[0]);
+			}
+		}
+	iteration++;
 	}
-
 	return (0);
 }
