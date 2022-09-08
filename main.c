@@ -1,45 +1,44 @@
 #include "shell.h"
 
 /**
- * main- entry point of the linux shell
- * @argc: the number of commandline args
- * @argv: the command line arguments
- * Return: 0
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
+ *
+ * Return: 0 on success, 1 on error
  */
-
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
-	char input_CMD[MAXCOM], *args[MAXLIST];
-	char *args_piped[MAXLIST];
-	int exec_indicator = 0;
-	int iteration = 0 + argc;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	while (1)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (ac == 2)
 	{
-		read_user_input(input_CMD);
-		exec_indicator = analyze_string(input_CMD, args, args_piped);
-
-		if (exec_indicator == 1)
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
-			if (is_path(args[0]) == 0)
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
 			{
-				char path_url[30] = "/usr/bin/";
-
-				_strcat(path_url, args[0]);
-				if (is_valid_file(path_url))
-					exec_cmd(args, argv[0], path_url);
-				else
-					perror(argv[0]);
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
 			}
-			else
-			{
-				if (is_valid_file(args[0]))
-					exec_path_cmd(args, argv[0]);
-				else
-					perror(argv[0]);
-			}
+			return (EXIT_FAILURE);
 		}
-	iteration++;
+		info->readfd = fd;
 	}
-	return (0);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }
