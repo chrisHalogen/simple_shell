@@ -13,6 +13,7 @@ void exec_cmd(char **cmd, const char *file, char *path)
 	/* char path[30] = "/usr/bin/"; */
 	/* int i = 0; */
 	pid_t pid = fork();
+	char **environ;
 
 	/* _printf("\nFork Called\n"); */
 	if (pid == -1)
@@ -48,6 +49,7 @@ void exec_cmd(char **cmd, const char *file, char *path)
 void exec_path_cmd(char **cmd, const char *file)
 {
 	pid_t pid = fork();
+	char **environ;
 
 	/* _printf("\nFork Called\n"); */
 	if (pid == -1)

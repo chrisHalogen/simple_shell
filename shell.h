@@ -15,8 +15,6 @@
 /* Clearing the shell using escape sequences */
 #define clear() printf("\033[H\033[J")
 
-char **environ;
-
 /* Print functions */
 int _printf(const char *format, ...);
 int _putchar(char c);
